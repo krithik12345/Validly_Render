@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "build": "react-scripts build",   // or vite build / next build …
+    "start": "react-scripts start"
   },
   "keywords": [],
   "author": "",
@@ -36,3 +38,4 @@
     "nodemon": "^3.1.10"
   }
 }
+
