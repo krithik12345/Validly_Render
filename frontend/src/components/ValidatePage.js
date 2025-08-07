@@ -180,7 +180,7 @@ const ValidatePage = () => {
         };
       }
 
-      const response = await axios.post('http://localhost:5000/api/chat', requestBody);
+      const response = await axios.post('https://validly-render-w9ue.onrender.com/api/chat', requestBody);
       let parsed = response.data.reply;
 
       if (typeof parsed === 'string') {
@@ -368,5 +368,6 @@ const ValidatePage = () => {
     </div>
   );
 };
+
 
 export default ValidatePage; 
