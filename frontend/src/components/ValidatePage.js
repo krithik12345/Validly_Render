@@ -205,7 +205,7 @@ const ValidatePage = () => {
 
   // Immediately hard-reload the browser on that new URL
   // (this only happens once, right here)
-   window.location.reload();
+  //  window.location.reload();
       } else {
         stopProgressSimulation();
         setLoading(false);
