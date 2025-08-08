@@ -19,7 +19,9 @@ import ResultsOverview from './ResultsOverview.js';
 const ResultsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { analysis, input } = location.state || {};
+  const { analysis: routeAnalysis, input: routeInput } = location.state || {};
+  const [analysis, setAnalysis] = useState(routeAnalysis || null);
+  const [input, setInput] = useState(routeInput || '');
   const [user, setUser] = useState(null);
   const [fetching, setFetching] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -29,6 +31,22 @@ const ResultsPage = () => {
   const [showStorageLimitModal, setShowStorageLimitModal] = useState(false);
   const [ideaStorageLimit, setIdeaStorageLimit] = useState(0);
   const [profile, setProfile] = useState(null);
+
+  // On mount, if no analysis from router state, try to hydrate from sessionStorage
+  useEffect(() => {
+    if (!routeAnalysis) {
+      try {
+        const cached = sessionStorage.getItem('validly_results');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.analysis) setAnalysis(parsed.analysis);
+          if (parsed?.input) setInput(parsed.input);
+        }
+      } catch (e) {
+        console.warn('Failed to read results from sessionStorage:', e);
+      }
+    }
+  }, [routeAnalysis]);
   
   // Calculate uniqueness score based on multiple factors
   const calculateUniquenessScore = () => {
@@ -454,7 +472,12 @@ const handleSaveIdea = async () => {
   };
 
   if (!analysis) {
-    return <div className="results-container"><p>No results to display. Please validate an idea first.</p></div>;
+    return (
+      <div className="results-container">
+        <p>No results to display. Please validate an idea first.</p>
+        <button className="validate-another-btn" onClick={() => navigate('/validate')}>Go to Validate</button>
+      </div>
+    );
   }
 
   // score badge function 
@@ -504,7 +527,7 @@ const handleSaveIdea = async () => {
   if (analysis.personalizedstatus) {
       return (
     <div className="results-container">
-      <a className="back-link" href="/validate">← Validate Another Idea</a>
+      <button className="back-link" onClick={() => navigate('/validate')}>← Validate Another Idea</button>
       <div className="results-header">
         <div className="results-header-left">
           <h2>Validation Results</h2>
@@ -564,7 +587,7 @@ const handleSaveIdea = async () => {
   }
   return (
     <div className="results-container">
-      <a className="back-link" href="/validate">← Validate Another Idea</a>
+      <button className="back-link" onClick={() => navigate('/validate')}>← Validate Another Idea</button>
       <div className="results-header">
         <div className="results-header-left">
           <h2>Validation Results</h2>

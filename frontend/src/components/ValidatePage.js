@@ -198,6 +198,12 @@ const ValidatePage = () => {
         stopProgressSimulation();
         setLoading(false);
 
+        try {
+          sessionStorage.setItem('validly_results', JSON.stringify({ analysis: parsed, input: message }));
+        } catch (e) {
+          console.warn('Failed to persist results to sessionStorage:', e);
+        }
+
         navigate('/results', {
           replace: true,
           state: { analysis: parsed, input: message }
