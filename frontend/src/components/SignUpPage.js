@@ -40,7 +40,7 @@ const SignUpPage = () => {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/signin`,
+        emailRedirectTo: `https://www.validlyapp.com`,
         data: {
           firstName,
           lastName,
@@ -98,5 +98,6 @@ const SignUpPage = () => {
     </div>
   );
 };
+
 
 export default SignUpPage; 
