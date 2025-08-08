@@ -12,27 +12,27 @@ const CompetitorResults = (props) => {
   const [loadingMap, setLoadingMap] = useState({});
   const [hasFetchedMap, setHasFetchedMap] = useState({});
 
-  const toggleShowMore = async (idx, compName) => {
-    const alreadyVisible = showMoreMap[idx];
+  const toggleShowMore = async (key, compName) => {
+    const alreadyVisible = showMoreMap[key];
 
-    if (!alreadyVisible && !hasFetchedMap[idx]) {
+    if (!alreadyVisible && !hasFetchedMap[key]) {
       try {
-        setLoadingMap(prev => ({ ...prev, [idx]: true }));
-        const response = await axios.post('http://localhost:5000/patents', { companyName: compName });
-        setPatentDataMap(prev => ({ ...prev, [idx]: response.data }));
+        setLoadingMap(prev => ({ ...prev, [key]: true }));
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/patents`, { companyName: compName });
+        setPatentDataMap(prev => ({ ...prev, [key]: response.data }));
       } catch (error) {
         console.error("Error fetching patent data:", error);
         setPatentDataMap(prev => ({
           ...prev,
-          [idx]: { error: "Unable to load patent data.", patent_ids: [], patent_ip_strength_rating: null, overall_patent_summary: '' }
+          [key]: { error: "Unable to load patent data.", patent_ids: [], patent_ip_strength_rating: null, overall_patent_summary: '' }
         }));
       } finally {
-        setLoadingMap(prev => ({ ...prev, [idx]: false }));
-        setHasFetchedMap(prev => ({ ...prev, [idx]: true }));
+        setLoadingMap(prev => ({ ...prev, [key]: false }));
+        setHasFetchedMap(prev => ({ ...prev, [key]: true }));
       }
     }
 
-    setShowMoreMap(prev => ({ ...prev, [idx]: !alreadyVisible }));
+    setShowMoreMap(prev => ({ ...prev, [key]: !alreadyVisible }));
   };
 
   return (
@@ -44,9 +44,10 @@ const CompetitorResults = (props) => {
       </div>
 
       {competitors.length > 0 ? competitors.map((comp, idx) => {
-        const showMore = !!showMoreMap[idx];
-        const loading = loadingMap[idx];
-        const patentData = patentDataMap[idx] || {};
+        const key = comp?.name || String(idx);
+        const showMore = !!showMoreMap[key];
+        const loading = loadingMap[key];
+        const patentData = patentDataMap[key] || {};
         // **DEFAULT PATENT IDS TO AN EMPTY ARRAY**
         const patentIds = patentData.patent_ids ?? [];
 
@@ -61,7 +62,7 @@ const CompetitorResults = (props) => {
             <div className="competitor-meta">{comp.locations || 'Unknown'} • {comp.pricing || 'Unknown'}</div>
 
             <div className="button-wrapper">
-              <button className="dropdown-button" onClick={() => toggleShowMore(idx, comp.name)}>
+              <button className="dropdown-button" onClick={() => toggleShowMore(key, comp.name)}>
                 <b>Read {showMore ? 'Less' : 'More'}</b>
                 {showMore ? <FiChevronsUp className="chevron-icon" /> : <FiChevronsDown className="chevron-icon" />}
               </button>
