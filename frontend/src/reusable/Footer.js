@@ -30,8 +30,8 @@ const Footer = () => {
                   <div className="footer-col footer-links">
                     <div className="footer-links-title">Company</div>
                     <a href="/under-construction" className="footer-link">About</a>
-                    <a href="/under-construction" className="footer-link">Privacy Policy</a>
-                    <a href="/under-construction" className="footer-link">Terms of Service</a>
+                    <a href="/privacy" className="footer-link" onClick={e => { e.preventDefault(); navigate('/privacy'); }}>Privacy Policy</a>
+                    <a href="/tos" className="footer-link" onClick={e => { e.preventDefault(); navigate('/tos'); }}>Terms of Service</a>
                   </div>
                 </div>
                 <div className="footer-bottom">

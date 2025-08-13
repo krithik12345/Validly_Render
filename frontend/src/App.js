@@ -15,6 +15,8 @@ import UnderConstructionPage from './components/UnderConstruction';
 import NotFoundPage from './components/404';
 import FeaturesPage from './components/Features';
 import IdeaComparisonPage from './components/IdeaComparisonPage';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TOS from './components/TOS';
 import './App.css';
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/under-construction" element={<UnderConstructionPage/>} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/tos" element={<TOS />} />
         <Route path="*" element={<NotFoundPage/>} />
       </Routes>
     </Router>
