@@ -7,6 +7,11 @@ import './TOS.css';
 const TOS = () => {
   const navigate = useNavigate();
 
+  // Scroll to top when component mounts
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -127,7 +132,7 @@ const TOS = () => {
             <h2>14. Contact Information</h2>
             <p>If you have any questions about these Terms of Service, please contact us at:</p>
             <div className="contact-info">
-              <p><strong>Email:</strong> legal@validlyapp.com</p>
+              <p><strong>Email:</strong> validly@gmail.com</p>
               <p><strong>Address:</strong> Validly, Inc.</p>
             </div>
           </div>

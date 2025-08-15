@@ -7,6 +7,11 @@ import './PrivacyPolicy.css';
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
 
+  // Scroll to top when component mounts
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Navbar />
